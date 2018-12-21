@@ -1,41 +1,41 @@
-import { getFindList,delPhoto} from '@/services/api';
+import { getFindList, delPhoto } from "@/services/api";
 
 export default {
-  namespace: 'find',
+  namespace: "find",
   state: {
-      total : 0,
-      records : []
+    total: 0,
+    records: []
   },
 
   effects: {
     *getFindList(action, { call, put }) {
-      const response = yield call(getFindList,action.data);
+      const response = yield call(getFindList, action.data);
       yield put({
-        type: 'save',
-        payload: response.data,
+        type: "save",
+        payload: response.data
       });
     },
     *deldteEventStatus(action, { call, put }) {
-      const response = yield call(delPhoto,action.data);
+      const response = yield call(delPhoto, action.data);
       yield put({
-        type: 'save',
-        payload: response.data,
+        type: "save",
+        payload: response.data
       });
-    },
+    }
   },
 
   reducers: {
     save(state, { payload }) {
       return {
         ...state,
-        ...payload,
+        ...payload
       };
     },
     clear() {
       return {
-          total : 0,
-          records : []
+        total: 0,
+        records: []
       };
-    },
-  },
+    }
+  }
 };

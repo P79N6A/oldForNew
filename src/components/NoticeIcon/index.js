@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
-import { formatMessage } from 'umi/locale';
-import { Popover, Icon, Tabs, Badge, Spin } from 'antd';
-import classNames from 'classnames';
-import List from './NoticeList';
-import styles from './index.less';
+import React, { PureComponent } from "react";
+import { formatMessage } from "umi/locale";
+import { Popover, Icon, Tabs, Badge, Spin } from "antd";
+import classNames from "classnames";
+import List from "./NoticeList";
+import styles from "./index.less";
 
 const { TabPane } = Tabs;
 
@@ -17,10 +17,11 @@ export default class NoticeIcon extends PureComponent {
     onClear: () => {},
     loading: false,
     locale: {
-      emptyText: formatMessage({ id: 'component.noticeIcon.empty' }),
-      clear: formatMessage({ id: 'component.noticeIcon.clear' }),
+      emptyText: formatMessage({ id: "component.noticeIcon.empty" }),
+      clear: formatMessage({ id: "component.noticeIcon.clear" })
     },
-    emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
+    emptyImage:
+      "https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
   };
 
   onItemClick = (item, tabProps) => {
@@ -66,13 +67,24 @@ export default class NoticeIcon extends PureComponent {
   }
 
   render() {
-    const { className, count, popupAlign, popupVisible, onPopupVisibleChange, bell } = this.props;
+    const {
+      className,
+      count,
+      popupAlign,
+      popupVisible,
+      onPopupVisibleChange,
+      bell
+    } = this.props;
     const noticeButtonClass = classNames(className, styles.noticeButton);
     const notificationBox = this.getNotificationBox();
     const NoticeBellIcon = bell || <Icon type="bell" className={styles.icon} />;
     const trigger = (
       <span className={noticeButtonClass}>
-        <Badge count={count} style={{ boxShadow: 'none' }} className={styles.badge}>
+        <Badge
+          count={count}
+          style={{ boxShadow: "none" }}
+          className={styles.badge}
+        >
           {NoticeBellIcon}
         </Badge>
       </span>
@@ -81,7 +93,7 @@ export default class NoticeIcon extends PureComponent {
       return trigger;
     }
     const popoverProps = {};
-    if ('popupVisible' in this.props) {
+    if ("popupVisible" in this.props) {
       popoverProps.visible = popupVisible;
     }
     return (

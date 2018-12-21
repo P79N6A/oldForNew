@@ -1,26 +1,26 @@
-import React, { Fragment } from 'react';
-import Link from 'umi/link';
-import { Icon } from 'antd';
-import GlobalFooter from '@/components/GlobalFooter';
-import styles from './UserLayout.less';
-import logo from '../assets/logo.svg';
+import React, { Fragment } from "react";
+import Link from "umi/link";
+import { Icon } from "antd";
+import GlobalFooter from "@/components/GlobalFooter";
+import styles from "./UserLayout.less";
+import logo from "../assets/logo.svg";
 
 const links = [
   {
-    key: 'help',
-    title: '帮助',
-    href: '',
+    key: "help",
+    title: "帮助",
+    href: ""
   },
   {
-    key: 'privacy',
-    title: '隐私',
-    href: '',
+    key: "privacy",
+    title: "隐私",
+    href: ""
   },
   {
-    key: 'terms',
-    title: '条款',
-    href: '',
-  },
+    key: "terms",
+    title: "条款",
+    href: ""
+  }
 ];
 
 const copyright = (

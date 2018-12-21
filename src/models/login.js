@@ -1,16 +1,16 @@
-import { routerRedux } from 'dva/router';
-import { stringify } from 'qs';
-import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
-import { setAuthority } from '@/utils/authority';
-import { getPageQuery } from '@/utils/utils';
-import { reloadAuthorized } from '@/utils/Authorized';
+import { routerRedux } from "dva/router";
+import { stringify } from "qs";
+import { fakeAccountLogin, getFakeCaptcha } from "@/services/api";
+import { setAuthority } from "@/utils/authority";
+import { getPageQuery } from "@/utils/utils";
+import { reloadAuthorized } from "@/utils/Authorized";
 
 export default {
-  namespace: 'login',
+  namespace: "login",
 
   state: {
     status: true,
-    token:''
+    token: ""
   },
 
   effects: {
@@ -21,13 +21,17 @@ export default {
       //   payload: response,
       // });
       // Login successfully
-      console.log(response,"登录返回参数")
-      if (response.code == '0') {
-          yield put({
-            type: 'changeLoginStatus',
-            payload: {status:true,currentAuthority:'user',token:response.data.token},
-          });
-          window.localStorage.setItem("token",response.data.token)
+      console.log(response, "登录返回参数");
+      if (response.code == "0") {
+        yield put({
+          type: "changeLoginStatus",
+          payload: {
+            status: true,
+            currentAuthority: "user",
+            token: response.data.token
+          }
+        });
+        window.localStorage.setItem("token", response.data.token);
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -36,7 +40,7 @@ export default {
           const redirectUrlParams = new URL(redirect);
           if (redirectUrlParams.origin === urlParams.origin) {
             redirect = redirect.substr(urlParams.origin.length);
-            if (redirect.startsWith('/#')) {
+            if (redirect.startsWith("/#")) {
               redirect = redirect.substr(2);
             }
           } else {
@@ -44,7 +48,7 @@ export default {
             return;
           }
         }
-        yield put(routerRedux.replace(redirect || '/'));
+        yield put(routerRedux.replace(redirect || "/"));
       }
     },
 
@@ -54,22 +58,22 @@ export default {
 
     *logout(_, { put }) {
       yield put({
-        type: 'changeLoginStatus',
+        type: "changeLoginStatus",
         payload: {
           status: false,
-          currentAuthority: 'guest',
-        },
+          currentAuthority: "guest"
+        }
       });
       reloadAuthorized();
       yield put(
         routerRedux.push({
-          pathname: '/user/login',
+          pathname: "/user/login",
           search: stringify({
-            redirect: window.location.href,
-          }),
+            redirect: window.location.href
+          })
         })
       );
-    },
+    }
   },
 
   reducers: {
@@ -81,6 +85,6 @@ export default {
         type: payload.type,
         token: payload.token
       };
-    },
-  },
+    }
+  }
 };

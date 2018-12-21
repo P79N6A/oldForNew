@@ -3,9 +3,8 @@
 // PRODUCTION
 // const HOST                         = 'https://kk.sa-green.cn/';
 
-
 // test
-const HOST                      = 'http://180.153.19.161:9000/';
+const HOST = "http://180.153.19.161:9000/";
 // const HOST                      = 'http://192.168.1.120:9000/';
 
 /*
@@ -13,26 +12,26 @@ const HOST                      = 'http://180.153.19.161:9000/';
 */
 
 //登陆
-export const LOGIN = HOST + 'enterprise/api';
+export const LOGIN = HOST + "enterprise/api";
 //首页模块
-export const GET_INDEX_MODEL = HOST + 'business/dashboard/load';
+export const GET_INDEX_MODEL = HOST + "business/dashboard/load";
 //首页大盘 豆腐块
-export const INDEX_MODEL_LIST = HOST + 'business/dashboard/detail';
+export const INDEX_MODEL_LIST = HOST + "business/dashboard/detail";
 //首页大盘 销售额
-export const INDEX_SALE_LIST = HOST + 'business/dashboard/saleList';
+export const INDEX_SALE_LIST = HOST + "business/dashboard/saleList";
 //首页大盘 订单数
-export const INDEX_ORDER_LIST = HOST + 'business/dashboard/orderList';
+export const INDEX_ORDER_LIST = HOST + "business/dashboard/orderList";
 
 // 订单
-export const ORDER_LIST = HOST + 'business/order/list';
+export const ORDER_LIST = HOST + "business/order/list";
 //订单查询导出1
-export const ORDER_LIST_EXPORT = HOST + 'business/order/list/export';
+export const ORDER_LIST_EXPORT = HOST + "business/order/list/export";
 //订单查询导出2
-export const ORDER_INTERVAL_EXPORT = HOST + 'business/order/interval/export';
+export const ORDER_INTERVAL_EXPORT = HOST + "business/order/interval/export";
 
 //查询反馈列表
-export const QUERY_FEEDBACK_LIST = HOST + 'business/feedback/get'
+export const QUERY_FEEDBACK_LIST = HOST + "business/feedback/get";
 //更新处理状态
-export const UPDATE_EVENT_STATUS = HOST + 'business/feedback/updateStatus'
+export const UPDATE_EVENT_STATUS = HOST + "business/feedback/updateStatus";
 //删除
-export const DELDTE_EVENT_STATUS = HOST + 'business/feedback/delete'
+export const DELDTE_EVENT_STATUS = HOST + "business/feedback/delete";

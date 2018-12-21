@@ -1,42 +1,40 @@
 export default [
   // user
   {
-    path: '/user',
-    component: '../layouts/UserLayout',
+    path: "/user",
+    component: "../layouts/UserLayout",
     routes: [
-      { path: '/user', redirect: '/user/login' },
-      { path: '/user/login', component: './User/Login' },
-      { path: '/user/register', component: './User/Register' },
-      { path: '/user/register-result', component: './User/RegisterResult' },
-    ],
+      { path: "/user", redirect: "/user/login" },
+      { path: "/user/login", component: "./User/Login" },
+      { path: "/user/register", component: "./User/Register" },
+      { path: "/user/register-result", component: "./User/RegisterResult" }
+    ]
   },
   // app
   {
-    path: '/',
-    component: '../layouts/BasicLayout',
-    Routes: ['src/pages/Authorized'],
-    authority: ['admin', 'user'],
+    path: "/",
+    component: "../layouts/BasicLayout",
+    Routes: ["src/pages/Authorized"],
+    authority: ["admin", "user"],
     routes: [
       // dashboard
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: "/", redirect: "/dashboard/analysis" },
       {
-        path: '/dashboard',
-        name: 'dashboard',
-        icon: 'dashboard',
+        path: "/dashboard",
+        name: "dashboard",
+        icon: "dashboard",
         routes: [
           {
-            path: '/dashboard/analysis',
-            name: 'analysis',
-            component: './Dashboard/Analysis',
-            
+            path: "/dashboard/analysis",
+            name: "analysis",
+            component: "./Dashboard/Analysis"
           },
           {
-            path: '/dashboard/analysis/addproduct',
-            name: 'addproduct',
+            path: "/dashboard/analysis/addproduct",
+            name: "addproduct",
             hideInMenu: true,
-            component: './AddProduct/AddProduct',
-            
-          },
+            component: "./AddProduct/AddProduct"
+          }
           // {
           //   path: '/dashboard/monitor',
           //   name: 'monitor',
@@ -47,48 +45,48 @@ export default [
           //   name: 'workplace',
           //   component: './Dashboard/Workplace',
           // },
-        ],
+        ]
       },
       {
-        path: '/order',
-        name: 'order',
-        icon: 'profile',
+        path: "/order",
+        name: "order",
+        icon: "profile",
         routes: [
           {
-            path: '/order/orderManage',
-            name: 'orderManage',
-            component: './Order/OrderManage',
+            path: "/order/orderManage",
+            name: "orderManage",
+            component: "./Order/OrderManage"
           },
           {
-            path: '/order/orderManage/addterminal',
-            name: 'addterminal',
-            hideInMenu:true,
-            component: './Order/AddTerminal',
+            path: "/order/orderManage/addterminal",
+            name: "addterminal",
+            hideInMenu: true,
+            component: "./Order/AddTerminal"
           }
           // {
           //   path: '/order/orderExport',
           //   name: 'orderExport',
           //   component: './Order/OrderExport',
           // },
-        ],
+        ]
       },
       {
-        path: '/feedback',
-        name: 'feedback',
-        icon: 'warning',
+        path: "/feedback",
+        name: "feedback",
+        icon: "warning",
         routes: [
           {
-            path: '/feedback/feedbackManage',
-            name: 'feedbackManage',
-            component: './Feedback/FeedbackManage',
+            path: "/feedback/feedbackManage",
+            name: "feedbackManage",
+            component: "./Feedback/FeedbackManage"
           },
           {
-            path: '/feedback/feedbackManage/datainfo',
-            name: 'datainfo',
-            hideInMenu:true,
-            component: './DataInfo/DataInfo',
-          },
-        ],
+            path: "/feedback/feedbackManage/datainfo",
+            name: "datainfo",
+            hideInMenu: true,
+            component: "./DataInfo/DataInfo"
+          }
+        ]
       },
       // {
       //   path: '/find',
@@ -318,8 +316,8 @@ export default [
       //   ],
       // },
       {
-        component: '404',
-      },
-    ],
-  },
+        component: "404"
+      }
+    ]
+  }
 ];

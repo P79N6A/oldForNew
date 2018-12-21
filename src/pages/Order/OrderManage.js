@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {connect} from 'dva';
-import {formatMessage, FormattedMessage} from 'umi/locale';
+import React, { Component } from "react";
+import { connect } from "dva";
+import { formatMessage, FormattedMessage } from "umi/locale";
 import {
   Row,
   Col,
@@ -8,7 +8,6 @@ import {
   Card,
   Tabs,
   Table,
-  Radio,
   DatePicker,
   Tooltip,
   Menu,
@@ -16,156 +15,244 @@ import {
   Form,
   Input,
   Select,
-  Button
-} from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import Yuan from '@/utils/Yuan';
-import {getTimeDistance} from '@/utils/utils';
-import styles from './style.less';
-import moment from 'moment';
+  Button,
+  Popconfirm
+} from "antd";
+import PageHeaderWrapper from "@/components/PageHeaderWrapper";
+import Yuan from "@/utils/Yuan";
+import { getTimeDistance } from "@/utils/utils";
+import styles from "./style.less";
+import moment from "moment";
 
-const {TabPane} = Tabs;
-const {RangePicker} = DatePicker;
+const { TabPane } = Tabs;
+const { RangePicker } = DatePicker;
 const Option = Select.Option;
 
 @connect(({ order, loading }) => ({
   order,
-  queryOrderListLoading : loading.effects['order/queryOrderList'],
-}))@Form.create()
-
+  queryOrderListLoading: loading.effects["order/queryOrderList"]
+}))
+@Form.create()
 class Index extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      current: 1
+    };
   }
   componentDidMount() {
-
+    this.queryOrderList();
   }
-  handleSubmit = (e) => {
-      e.preventDefault();
-      this.queryOrderList();
+  handleSubmit = e => {
+    e.preventDefault();
+    this.queryOrderList();
   };
-  queryOrderList(page=1){
-      this.props.form.validateFields((err, values) => {
-          if (!err) {
-              const { fetchData, siteId } = this.props;
-              values.bookDate = values.bookDate ? values.bookDate.format('YYYY-MM-DD') : null;
-              values.orderDate = values.orderDate ? values.orderDate.format('YYYY-MM-DD') : null;
-              this.props.dispatch({type: 'order/queryOrderList',data:{...values,page:page,pageSize:30}})
-          }
+  queryOrderList(page) {
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const newdata = {
+          data: {
+            name: values.name, //可传
+            pageBean: {
+              pageNumber: page,
+              pageSize: 10
+            }
+          },
+          app_key: "app_id_5",
+          format: "json",
+          sign: "02168DB3610503E525930DDA9E587378",
+          version: "1.0",
+          nonce: `bd1ded62-7fca-4585-b39f-42e4759c8b29${new Date().valueOf() +
+            Math.random()}`,
+          timestamp: `${new Date().valueOf()}`,
+          name: "enterprise.enterpriseTerminalList",
+          token: this.getToken()
+        };
+
+        this.props.dispatch({ type: "order/queryOrderList", ...newdata });
+      }
+    });
+  }
+  // 获取token
+  getToken = () => {
+    if (window.localStorage.getItem("token")) {
+      return window.localStorage.getItem("token");
+    } else {
+      this.props.history.push("/user/login");
+    }
+  };
+
+  exportXls() {
+    this.props.history.push("/order/orderManage/addterminal");
+  }
+
+  onDelete = state => {
+    const newdata = {
+      data: {
+        id: state.id
+      },
+      app_key: "app_id_5",
+      format: "json",
+      sign: "02168DB3610503E525930DDA9E587378",
+      version: "1.0",
+      nonce: `bd1ded62-7fca-4585-b39f-42e4759c8b29${new Date().valueOf() +
+        Math.random()}`,
+      timestamp: `${new Date().valueOf()}`,
+      name: "enterprise.deleteEnterpriseTerminal",
+      token: this.getToken()
+    };
+    this.props
+      .dispatch({ type: "order/deleteTerminal", ...newdata })
+      .then(() => {
+        this.queryOrderList(this.state.current);
       });
-  }
-  exportXls(){
-    this.props.history.push('/order/orderManage/addterminal');
-    //   this.props.form.validateFields((err, values) => {
-    //       if (!err) {
-    //           const { fetchData } = this.props;
-    //           values.bookDate = values.bookDate ? values.bookDate.format('YYYY-MM-DD') : null;
-    //           values.orderDate = values.orderDate ? values.orderDate.format('YYYY-MM-DD') : null;
-    //           this.props.dispatch({type: 'order/exportOrderQueryList',data:{...values}})
-    //           // fetchData({funcName: 'exportOrderQueryList',params:{...values}});
-    //       }
-    //   });
-  }
-  componentDidMount() {}
+  };
+
+  onOnEdit = state => {
+    this.props.history.push({
+      pathname: "/order/orderManage/addterminal",
+      state: state
+    });
+  };
   render() {
-    const {form: {
-        getFieldDecorator
-      }, submitting} = this.props;
-    const dateFormat = 'YYYY/MM/DD';
+    const {
+      form: { getFieldDecorator },
+      submitting
+    } = this.props;
+    const dateFormat = "YYYY/MM/DD";
     var myDate = new Date(); //获取系统当前时间
-    const currentDate = myDate.getFullYear() + '/' + (
-    myDate.getMonth() + 1) + '/' + myDate.getDate();
+    const currentDate =
+      myDate.getFullYear() +
+      "/" +
+      (myDate.getMonth() + 1) +
+      "/" +
+      myDate.getDate();
     const columns = [
-        {
-            title: '序号',
-            dataIndex: 'customerOrderId',
-            key: 'customerOrderId',
-            align : 'center'
-        },
-        {
-            title: '终端名称',
-            dataIndex: 'orderId',
-            key: 'orderId',
-            align : 'center'
-        },
-        {
-            title: '所在地址',
-            dataIndex: 'orderStatusStr',
-            key: 'orderStatusStr',
-            align : 'center'
-        },
-        {
-            title: '负责人姓名',
-            dataIndex: 'bookingDate',
-            key: 'bookingDate',
-            align : 'center'
-        },
-        {
-            title: '手机号',
-            dataIndex: 'mobile',
-            key: 'mobile',
-            align : 'center'
-        },
-        {
-            title: '操作',
-            render : (status,record,index) => <div>
-            </div>,
-            align : 'center'
-        },
+      {
+        title: "序号",
+        dataIndex: "customerOrderId",
+        key: "customerOrderId",
+        align: "center"
+      },
+      {
+        title: "终端名称",
+        dataIndex: "name",
+        key: "name",
+        align: "center"
+      },
+      {
+        title: "所在地址",
+        dataIndex: "address",
+        key: "address",
+        align: "center"
+      },
+      {
+        title: "负责人姓名",
+        dataIndex: "contacts",
+        key: "contacts",
+        align: "center"
+      },
+      {
+        title: "手机号",
+        dataIndex: "tel",
+        key: "tel",
+        align: "center"
+      },
+      {
+        title: "操作",
+        render: (status, record, index) => (
+          <div>
+            <Popconfirm visible={false} onClick={() => this.onOnEdit(status)}>
+              <a href="#">编辑</a>
+            </Popconfirm>
+            <Popconfirm
+              title="您确定要删除吗?"
+              onConfirm={() => this.onDelete(status)}
+            >
+              <a style={{ color: "red", marginLeft: "10px" }} href="#">
+                删除
+              </a>
+            </Popconfirm>
+          </div>
+        ),
+        align: "center"
+      }
     ];
+
+    console.log(this.props.order, "66666");
     const pagination = {
-      total:this.props.order.total,
-      pageSize: 30,
-      onChange :  (page) => {
+      total: this.props.order.count,
+      pageSize: 10,
+      current: this.state.current,
+      onChange: page => {
+        this.setState({ current: page }, () => {
           this.queryOrderList(page);
+        });
       }
     };
-    return (<PageHeaderWrapper>
-      <Card title="终端查询" className={styles.card} bordered={false}>
-        <Form layout="vertical">
-        
-
-          <Row gutter={16}>
+    return (
+      <PageHeaderWrapper>
+        <Card title="终端查询" className={styles.card} bordered={false}>
+          <Form layout="vertical">
+            <Row gutter={16}>
               <Col span={6}>
                 <Form.Item label="名称">
-                {getFieldDecorator('orderStatus', {
-                    initialValue : [0]
-                })(
-                    <Select
-                        mode="multiple"
-                        placeholder="请输入销售终端名称"
-                      >
-                        {
-                            this.props.order.queryStatusList.map((item)=><Option key={item.value} value={item.value}>{item.label}</Option>)
-                        }
-                     </Select>
-                )}
+                  {getFieldDecorator("name", {})(
+                    <Input placeholder="请输入产品名称" />
+                  )}
                 </Form.Item>
               </Col>
               <Col span={6}>
-                  <Form.Item  label='&nbsp;'>
-                      <Button type="primary" onClick={this.queryOrderList.bind(this,1)} loading={this.props.queryOrderListLoading} style={{marginRight:'15px'}}>查询</Button>
-                     
-                      <Button type="primary" onClick={this.exportXls.bind(this)}>新增终端</Button>
-                  </Form.Item>
-              </Col>
-          </Row>
-        </Form>
-        <Row>
-            <Col>
-                <Table
-                    title={()=><div style={{display:'flex',justifyContent: 'space-between',alignItems: 'center'}}><h3>订单列表 <span style={{fontSize:'12px'}}>共有{this.props.order.total}条数据</span></h3></div>}
-                    pagination={pagination}
-                    bordered
-                    columns={columns}
-                    dataSource={this.props.order.orderList}
-                    rowKey={record => record.orderId}
+                <Form.Item label="&nbsp;">
+                  <Button
+                    type="primary"
+                    onClick={this.queryOrderList.bind(this, 1)}
                     loading={this.props.queryOrderListLoading}
-                    />
+                    style={{ marginRight: "15px" }}
+                  >
+                    查询
+                  </Button>
+
+                  <Button type="primary" onClick={this.exportXls.bind(this)}>
+                    新增终端
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+          <Row>
+            <Col>
+              <Table
+                title={() => (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center"
+                    }}
+                  >
+                    <h3>
+                      订单列表{" "}
+                      <span style={{ fontSize: "12px" }}>
+                        共有
+                        {this.props.order.count}
+                        条数据
+                      </span>
+                    </h3>
+                  </div>
+                )}
+                pagination={pagination}
+                bordered
+                columns={columns}
+                dataSource={this.props.order.terminalsList}
+                rowKey={record => record.id}
+                loading={this.props.queryOrderListLoading}
+              />
             </Col>
-        </Row>
-      </Card>
-    </PageHeaderWrapper>);
+          </Row>
+        </Card>
+      </PageHeaderWrapper>
+    );
   }
 }
 

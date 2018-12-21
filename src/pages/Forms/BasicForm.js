@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
+import React, { PureComponent } from "react";
+import { connect } from "dva";
 import {
   Form,
   Input,
@@ -10,10 +10,10 @@ import {
   InputNumber,
   Radio,
   Icon,
-  Tooltip,
-} from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import styles from './style.less';
+  Tooltip
+} from "antd";
+import PageHeaderWrapper from "@/components/PageHeaderWrapper";
+import styles from "./style.less";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -21,7 +21,7 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 @connect(({ loading }) => ({
-  submitting: loading.effects['form/submitRegularForm'],
+  submitting: loading.effects["form/submitRegularForm"]
 }))
 @Form.create()
 class BasicForms extends PureComponent {
@@ -31,8 +31,8 @@ class BasicForms extends PureComponent {
     form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         dispatch({
-          type: 'form/submitRegularForm',
-          payload: values,
+          type: "form/submitRegularForm",
+          payload: values
         });
       }
     });
@@ -41,26 +41,26 @@ class BasicForms extends PureComponent {
   render() {
     const { submitting } = this.props;
     const {
-      form: { getFieldDecorator, getFieldValue },
+      form: { getFieldDecorator, getFieldValue }
     } = this.props;
 
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 7 },
+        sm: { span: 7 }
       },
       wrapperCol: {
         xs: { span: 24 },
         sm: { span: 12 },
-        md: { span: 10 },
-      },
+        md: { span: 10 }
+      }
     };
 
     const submitFormLayout = {
       wrapperCol: {
         xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
-      },
+        sm: { span: 10, offset: 7 }
+      }
     };
 
     return (
@@ -69,35 +69,44 @@ class BasicForms extends PureComponent {
         content="表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。"
       >
         <Card bordered={false}>
-          <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
+          <Form
+            onSubmit={this.handleSubmit}
+            hideRequiredMark
+            style={{ marginTop: 8 }}
+          >
             <FormItem {...formItemLayout} label="标题">
-              {getFieldDecorator('title', {
+              {getFieldDecorator("title", {
                 rules: [
                   {
                     required: true,
-                    message: '请输入标题',
-                  },
-                ],
+                    message: "请输入标题"
+                  }
+                ]
               })(<Input placeholder="给目标起个名字" />)}
             </FormItem>
             <FormItem {...formItemLayout} label="起止日期">
-              {getFieldDecorator('date', {
+              {getFieldDecorator("date", {
                 rules: [
                   {
                     required: true,
-                    message: '请选择起止日期',
-                  },
-                ],
-              })(<RangePicker style={{ width: '100%' }} placeholder={['开始日期', '结束日期']} />)}
+                    message: "请选择起止日期"
+                  }
+                ]
+              })(
+                <RangePicker
+                  style={{ width: "100%" }}
+                  placeholder={["开始日期", "结束日期"]}
+                />
+              )}
             </FormItem>
             <FormItem {...formItemLayout} label="目标描述">
-              {getFieldDecorator('goal', {
+              {getFieldDecorator("goal", {
                 rules: [
                   {
                     required: true,
-                    message: '请输入目标描述',
-                  },
-                ],
+                    message: "请输入目标描述"
+                  }
+                ]
               })(
                 <TextArea
                   style={{ minHeight: 32 }}
@@ -107,14 +116,20 @@ class BasicForms extends PureComponent {
               )}
             </FormItem>
             <FormItem {...formItemLayout} label="衡量标准">
-              {getFieldDecorator('standard', {
+              {getFieldDecorator("standard", {
                 rules: [
                   {
                     required: true,
-                    message: '请输入衡量标准',
-                  },
-                ],
-              })(<TextArea style={{ minHeight: 32 }} placeholder="请输入衡量标准" rows={4} />)}
+                    message: "请输入衡量标准"
+                  }
+                ]
+              })(
+                <TextArea
+                  style={{ minHeight: 32 }}
+                  placeholder="请输入衡量标准"
+                  rows={4}
+                />
+              )}
             </FormItem>
             <FormItem
               {...formItemLayout}
@@ -130,7 +145,7 @@ class BasicForms extends PureComponent {
                 </span>
               }
             >
-              {getFieldDecorator('client')(
+              {getFieldDecorator("client")(
                 <Input placeholder="请描述你服务的客户，内部客户直接 @姓名／工号" />
               )}
             </FormItem>
@@ -143,7 +158,7 @@ class BasicForms extends PureComponent {
                 </span>
               }
             >
-              {getFieldDecorator('invites')(
+              {getFieldDecorator("invites")(
                 <Input placeholder="请直接 @姓名／工号，最多可邀请 5 人" />
               )}
             </FormItem>
@@ -156,13 +171,19 @@ class BasicForms extends PureComponent {
                 </span>
               }
             >
-              {getFieldDecorator('weight')(<InputNumber placeholder="请输入" min={0} max={100} />)}
+              {getFieldDecorator("weight")(
+                <InputNumber placeholder="请输入" min={0} max={100} />
+              )}
               <span className="ant-form-text">%</span>
             </FormItem>
-            <FormItem {...formItemLayout} label="目标公开" help="客户、邀评人默认被分享">
+            <FormItem
+              {...formItemLayout}
+              label="目标公开"
+              help="客户、邀评人默认被分享"
+            >
               <div>
-                {getFieldDecorator('public', {
-                  initialValue: '1',
+                {getFieldDecorator("public", {
+                  initialValue: "1"
                 })(
                   <Radio.Group>
                     <Radio value="1">公开</Radio>
@@ -171,13 +192,14 @@ class BasicForms extends PureComponent {
                   </Radio.Group>
                 )}
                 <FormItem style={{ marginBottom: 0 }}>
-                  {getFieldDecorator('publicUsers')(
+                  {getFieldDecorator("publicUsers")(
                     <Select
                       mode="multiple"
                       placeholder="公开给"
                       style={{
-                        margin: '8px 0',
-                        display: getFieldValue('public') === '2' ? 'block' : 'none',
+                        margin: "8px 0",
+                        display:
+                          getFieldValue("public") === "2" ? "block" : "none"
                       }}
                     >
                       <Option value="1">同事甲</Option>
